@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Ordem de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        p strong {
+            color: #343a40;
+        }
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .btn-link:hover {
+            background-color: #0056b3;
+        }
+        .btn-home {
+            background-color: #28a745;
+        }
+        .btn-home:hover {
+            background-color: #218838;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalhes da Ordem de Serviço</h1>
+    <div class="container">
+        <h2>Informações Básicas</h2>
+        <p><strong>Nome de Guerra:</strong> {{ ordem.nome_guerra }}</p>
+        <p><strong>Posto:</strong> {{ ordem.posto }}</p>
+        <p><strong>Graduação:</strong> {{ ordem.graduacao }}</p>
+        <p><strong>Telefone de Contato:</strong> {{ ordem.telefone_contato }}</p>
+        <p><strong>Esquadrilha:</strong> {{ ordem.esquadrilha }}</p>
+        <p><strong>Função:</strong> {{ ordem.funcao }}</p>
+        <p><strong>Tipo de Serviço:</strong> {{ ordem.get_tipo_servico_display }}</p>
+        <p><strong>Descrição do Problema:</strong> {{ ordem.descricao_problema }}</p>
+        <p><strong>Data de Criação:</strong> {{ ordem.data_criacao|date:"d/m/Y H:i" }}</p>
+        
+        <h2>Informações de Execução</h2>
+        <p><strong>Nome do Executante:</strong> {{ ordem.nome_executante }}</p>
+        <p><strong>Prioridade de Execução:</strong> {{ ordem.prioridade_execucao }}</p>
+        <p><strong>Possui Todo o Material Necessário:</strong> {{ ordem.possui_material|yesno:"Sim,Não" }}</p>
+        <p><strong>Material Necessário:</strong> {{ ordem.material_necessario }}</p>
+        <p><strong>Data de Execução:</strong> {{ ordem.data_execucao|date:"d/m/Y" }}</p>
+        
+        <h2>Informações de Finalização</h2>
+        <p><strong>Material Utilizado:</strong> {{ ordem.material_utilizado }}</p>
+        <p><strong>Ferramenta Utilizada:</strong> {{ ordem.ferramenta_utilizada }}</p>
+        <p><strong>Descrição Detalhada:</strong> {{ ordem.descricao_detalhada }}</p>
+        <p><strong>Número de Configuração:</strong> {{ ordem.numero_configuracao }}</p>
+        <p><strong>Modificação no Sistema:</strong> {{ ordem.modificacao_sistema }}</p>
+        
+        <h2>Status da Ordem de Serviço</h2>
+        <p><strong>Status:</strong> {{ ordem.status }}</p>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'listar_ordens' %}" class="btn-link">Voltar para Lista de Ordens</a>
+            <a href="{% url 'home_ordem' %}" class="btn-link btn-home">Voltar para Home</a>
+        </div>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador - DRP03-PJI110-SALA-002GRUPO-006 &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

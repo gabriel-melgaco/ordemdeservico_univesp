@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executar Ordem de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 14px;
+            color: #495057;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .btn-link:hover {
+            background-color: #5a6268;
+        }
+        .btn-home {
+            background-color: #28a745;
+        }
+        .btn-home:hover {
+            background-color: #218838;
+        }
+        .footer-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Executar Ordem de Serviço</h1>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="nome_executante">Nome do Executante:</label>
+                <input type="text" id="nome_executante" name="nome_executante" required>
+            </div>
+            <div>
+                <label for="prioridade_execucao">Prioridade de Execução:</label>
+                <select id="prioridade_execucao" name="prioridade_execucao" required>
+                    <option value="alta">Alta</option>
+                    <option value="media">Média</option>
+                    <option value="baixa">Baixa</option>
+                </select>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="possui_material" name="possui_material">
+                    Possui todo o material necessário?
+                </label>
+            </div>
+            <div>
+                <label for="material_necessario">Caso não tenha, descreva o material necessário:</label>
+                <textarea id="material_necessario" name="material_necessario"></textarea>
+            </div>
+            <div>
+                <label for="data_execucao">Data de Execução:</label>
+                <input type="date" id="data_execucao" name="data_execucao" required>
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="footer-buttons">
+            <a href="{% url 'listar_ordens' %}" class="btn-link">Voltar para Lista</a>
+            <a href="{% url 'home_ordem' %}" class="btn-link btn-home">Voltar para Home</a>
+        </div>
+    </div>
+</body>
+</html>

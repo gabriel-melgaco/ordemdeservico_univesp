@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Status de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label, input, select, button {
+            font-size: 16px;
+            width: 100%;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Atualizar Status de Compra</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="fornecedor">Fornecedor:</label>
+                {{ form.fornecedor }}
+            </div>
+            <div>
+                <label for="valor_compra">Valor da Compra:</label>
+                {{ form.valor_compra }}
+            </div>
+            <div>
+                <label for="status_compra">Status da Compra:</label>
+                {{ form.status_compra }}
+            </div>
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador -  DRP03-PJI110-SALA-002GRUPO-006  &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

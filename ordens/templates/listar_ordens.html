@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ordens de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin: 20px 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li a {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        li a:hover {
+            background-color: #0056b3;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons a {
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .buttons a:hover {
+            background-color: #218838;
+        }
+        .buttons a:last-child {
+            background-color: #6c757d;
+        }
+        .buttons a:last-child:hover {
+            background-color: #5a6268;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Ordens de Serviço</h1>
+    <div class="buttons">
+        <form action="{% url 'buscar_por_numero' %}" method="get" style="display: inline-block; margin-right: 10px;">
+            <input type="text" name="numero_ordem" placeholder="Número da ordem" required>
+            <button type="submit" class="button">Buscar por Número</button>
+        </form>
+        <form action="{% url 'filtrar_por_periodo' %}" method="get" style="display: inline-block;">
+            <label for="inicio">De:</label>
+            <input type="date" name="inicio" id="inicio" required>
+            <label for="fim">Até:</label>
+            <input type="date" name="fim" id="fim" required>
+            <button type="submit" class="button">Filtrar por Período</button>
+        </form>
+    </div>
+    <div class="container">
+        <ul>
+            {% for ordem in ordens %}
+                <li>
+                    <span>OS #{{ ordem.id }} - Criada em: {{ ordem.data_criacao|date:"d/m/Y H:i" }}</span>
+                    {% if ordem.material_necessario %}
+                        <span class="status">Status de Compra: 
+                            {% if ordem.status_compra == 'pendente' %}Pendente{% elif ordem.status_compra == 'negociado' %}Negociado
+                            {% elif ordem.status_compra == 'entregue' %}Entregue{% elif ordem.status_compra == 'disponivel' %}Disponível
+                            {% elif ordem.status_compra == 'deferido' %}Deferido{% else %}Não definido{% endif %}
+                        </span>
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'detalhar_ordem' ordem.id %}">Detalhar</a>
+                        <a href="{% url 'executar_ordem' ordem.id %}">Executar</a>
+                        <a href="{% url 'finalizar_ordem' ordem.id %}">Finalizar</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="buttons">
+            <a href="{% url 'criar_ordem' %}">Criar Nova Ordem</a>
+            <a href="{% url 'home_ordem' %}">Voltar para Home</a>
+        </div>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador -  DRP03-PJI110-SALA-002GRUPO-006  &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

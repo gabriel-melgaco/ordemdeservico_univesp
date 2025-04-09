@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Ordem de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 14px;
+            color: #495057;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .btn-link:hover {
+            background-color: #5a6268;
+        }
+        .btn-home {
+            background-color: #28a745;
+        }
+        .btn-home:hover {
+            background-color: #218838;
+        }
+        .footer-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Finalizar Ordem de Serviço</h1>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="material_utilizado">Material Utilizado:</label>
+                <textarea id="material_utilizado" name="material_utilizado" required></textarea>
+            </div>
+            <div>
+                <label for="ferramenta_utilizada">Ferramenta Utilizada:</label>
+                <textarea id="ferramenta_utilizada" name="ferramenta_utilizada" required></textarea>
+            </div>
+            <div>
+                <label for="descricao_detalhada">Descrição Detalhada do Serviço:</label>
+                <textarea id="descricao_detalhada" name="descricao_detalhada" required></textarea>
+            </div>
+            <div>
+                <label for="numero_configuracao">Número de Configuração da Máquina Manutenida:</label>
+                <input type="text" id="numero_configuracao" name="numero_configuracao" required>
+            </div>
+            <div>
+                <label for="modificacao_sistema">Se for Controle de Acesso, descreva a modificação no sistema:</label>
+                <textarea id="modificacao_sistema" name="modificacao_sistema"></textarea>
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="footer-buttons">
+            <a href="{% url 'listar_ordens' %}" class="btn-link">Voltar para Lista</a>
+            <a href="{% url 'home_ordem' %}" class="btn-link btn-home">Voltar para Home</a>
+        </div>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador -  DRP03-PJI110-SALA-002GRUPO-006  &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

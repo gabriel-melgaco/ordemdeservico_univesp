@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca por Número</title>
+    <style>
+        /* Estilo da página original */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin: 20px 0;
+        }
+        .ordem {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .ordem span {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .button {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Busca por Número</h1>
+    <div class="container">
+        {% if ordem %}
+            <div class="ordem">
+                <span><strong>Número da Ordem:</strong> {{ ordem.id }}</span>
+                <span><strong>Status:</strong> {{ ordem.status }}</span>
+                <span><strong>Data de Criação:</strong> {{ ordem.data_criacao|date:"d/m/Y H:i" }}</span>
+                <span><strong>Tipo de Serviço:</strong> {{ ordem.tipo_servico }}</span>
+                <div class="button-container">
+                    <a href="{% url 'detalhar_ordem' ordem.id %}" class="button">Detalhar</a>
+                    <a href="{% url 'executar_ordem' ordem.id %}" class="button">Executar</a>
+                    <a href="{% url 'finalizar_ordem' ordem.id %}" class="button">Finalizar</a>
+                </div>
+            </div>
+        {% else %}
+            <p>Ordem não encontrada.</p>
+        {% endif %}
+        <a href="{% url 'home_ordem' %}" class="button">Voltar para Home</a>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador - DRP03-PJI110-SALA-002GRUPO-006 &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

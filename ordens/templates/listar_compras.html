@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+                }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons a {
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .buttons a:hover {
+            background-color: #218838;
+        }
+        .buttons a:last-child {
+            background-color: #6c757d;
+        }
+        .buttons a:last-child:hover {
+            background-color: #5a6268;
+        }      
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Compras</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Número da Ordem</th>
+                <th>Prioridade</th>
+                <th>Nome do Executante</th>
+                <th>Material Necessário</th>
+                <th>Status de Compra</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra in compras %}
+            <tr>
+                <td>{{ compra.id }}</td> <!-- Substituído por 'id', que é o número da ordem -->
+                <td>{{ compra.prioridade_execucao }}</td> <!-- Ajustado para refletir o campo de prioridade -->
+                <td>{{ compra.nome_executante }}</td>
+                <td>{{ compra.material_necessario }}</td>
+                <td>{{ compra.status_compra }}</td>
+                <td>
+                    <a href="{% url 'atualizar_compra' compra.id %}" class="btn">Atualizar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="buttons">
+        <a href="{% url 'home_compras' %}">Voltar para Home</a>
+    </div>
+</div>
+<footer>
+    <p>UNIVESP - Projeto Integrador -  DRP03-PJI110-SALA-002GRUPO-006  &copy; 2025</p>
+    <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+</footer>
+</body>
+</html>

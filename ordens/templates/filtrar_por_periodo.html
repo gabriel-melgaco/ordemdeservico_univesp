@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro por Período</title>
+    <style>
+        /* Mesma estilização da página original */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin: 20px 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filtro por Período</h1>
+    <div class="container">
+        {% if ordens %}
+            <ul>
+                {% for ordem in ordens %}
+                    <li>
+                        <span>OS #{{ ordem.id }} - Criada em: {{ ordem.data_criacao|date:"d/m/Y H:i" }}</span>
+                        <div class="button-container">
+                            <a href="{% url 'detalhar_ordem' ordem.id %}" class="button">Detalhar</a>
+                            <a href="{% url 'executar_ordem' ordem.id %}" class="button">Executar</a>
+                            <a href="{% url 'finalizar_ordem' ordem.id %}" class="button">Finalizar</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhuma ordem encontrada no período especificado.</p>
+        {% endif %}
+        <a href="{% url 'home_ordem' %}" class="button">Voltar para o início</a>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador - DRP03-PJI110-SALA-002GRUPO-006 &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

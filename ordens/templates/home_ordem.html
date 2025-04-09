@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .button {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao Sistema de Ordens de Serviço</h1>
+        <p class="description">
+            Braço Forte - Mão Amiga
+        </p>
+        <div class="button-container">
+            <a href="{% url 'criar_ordem' %}" class="button">Criar Ordem de Serviço</a>
+            <a href="{% url 'listar_ordens' %}" class="button">Listar Ordens de Serviço</a>
+         </div>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador - DRP03-PJI110-SALA-002GRUPO-006 &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Ordem de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .btn-link:hover {
+            background-color: #5a6268;
+        }
+        .btn-home {
+            background-color: #28a745;
+        }
+        .btn-home:hover {
+            background-color: #218838;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Criar Ordem de Serviço</h1>
+    <div class="container">
+        <!-- Verifica se o número da ordem foi gerado -->
+        {% if numero_ordem_criada %}
+            <div class="success-message">
+                <strong>Ordem de Serviço criada com sucesso!</strong> <br>
+                O número da sua Ordem de Serviço é: <strong>#{{ numero_ordem_criada }}</strong>.
+            </div>
+        {% endif %}
+
+        <!-- Formulário para criar nova ordem -->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Salvar</button>
+        </form>
+
+        <br>
+        <!-- Botões de navegação -->
+        <div style="text-align: center;">
+            <a href="{% url 'listar_ordens' %}" class="btn-link">Voltar para Lista de Ordens</a>
+            <a href="{% url 'home_ordem' %}" class="btn-link btn-home">Voltar para Home</a>
+        </div>
+    </div>
+    <footer>
+        <p>UNIVESP - Projeto Integrador -  DRP03-PJI110-SALA-002GRUPO-006  &copy; 2025</p>
+        <p><a href="{% url 'home' %}">Voltar para o início</a></p>
+    </footer>
+</body>
+</html>
