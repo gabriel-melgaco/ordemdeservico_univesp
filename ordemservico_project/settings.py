@@ -139,3 +139,6 @@ LOGOUT_REDIRECT_URL = '/login/'  # Redireciona após logout
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+CSRF_TRUSTED_ORIGINS = ['https://ordemdeservico.megdev.com.br']
+
