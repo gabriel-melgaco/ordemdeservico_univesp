@@ -99,24 +99,15 @@
         {% endif %}
 
         <!-- Formulário para atualizar status de compras -->
-        {% load bootstrap %} {% block content %}
+        {% load crispy_forms_tags %} {% block content %}
         <div class="container_form text-center">
             <h3>Atualizar Status de Compras <span>Número: {{ ordem.id }}</span></h3>
             <form method="post">
                 {% csrf_token %}
                 <div>
                     <label for="fornecedor">
-                        {{ form.fornecedor|bootstrap }}
+                        {% crispy form %}
                 </div>
-                <div>
-                    <label for="valor_compra">
-                        {{ form.valor_compra|bootstrap }}
-                </div>
-                <div>
-                    <label for="status_compra">
-                        {{ form.status_compra|bootstrap }}
-                </div>
-                <button class="btn btn-outline-primary mt-2" type="submit">Salvar</button>
             </form>
         </div>
         {% endblock %}

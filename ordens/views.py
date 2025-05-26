@@ -29,6 +29,7 @@ def criar_ordem(request):
         if form.is_valid():
             ordem_criada = form.save()  # Salva a ordem de serviço
             numero_ordem_criada = ordem_criada.id  # Obtém o número da ordem gerada
+            messages.success(request, 'Usuário criado com sucesso!')
             return render(request, 'criar_ordem.html', {
                 'form': OrdemDeServicoForm(),  # Envia um novo formulário vazio
                 'numero_ordem_criada': numero_ordem_criada  # Passa o número da ordem para o template
