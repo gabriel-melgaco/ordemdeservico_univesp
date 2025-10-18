@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 from functools import wraps
 from django.contrib.auth import logout
 from django.contrib import messages
+import requests
+
+
 
 # Função genérica para verificar grupo Decorador para verificar grupos de usuários
 def verifica_grupo(lista_grupos, login_url='/erro_permissao/'):
@@ -105,22 +108,45 @@ def atualizar_compra(request, pk):
     return render(request, 'atualizar_compra.html', {'form': form, 'ordem': ordem})
 
 
+
 @verifica_grupo(['Administrador', 'Compras'], login_url='/erro_permissao/')
-def criar_empresa(request):
-    if request.method == 'GET':
-        form = CriarEmpresaForm(request.GET)
+def consultar_empresa(request):
+    if request.method == 'POST':
+        form = CriarEmpresaForm(request.POST)
+        if form.is_valid():
+            cnpj = form.cleaned_data.get('cnpj', '').replace('.', '').replace('/', '').replace('-', '')
+
+            # Consulta a API pública da ReceitaWS
+            url = f'https://www.receitaws.com.br/v1/cnpj/{cnpj}'
+            response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+
+            if response.status_code == 200:
+                dados = response.json()
+
+                if dados.get('status') == 'ERROR':
+                    messages.error(request, f"Erro: {dados.get('message', 'Não foi possível consultar o CNPJ.')}")
+                else:
+                    form = CriarEmpresaForm(initial={
+                        'cnpj': dados.get('cnpj', ''),
+                        'razao_social': dados.get('nome', ''),
+                        'nome_fantasia': dados.get('fantasia', ''),
+                        'email': dados.get('email', ''),
+                        'telefone': dados.get('telefone', ''),
+                        'endereco': dados.get('logradouro', ''),
+                        'numero': dados.get('numero', ''),
+                        'bairro': dados.get('bairro', ''),
+                        'cidade': dados.get('municipio', ''),
+                        'estado': dados.get('uf', ''),
+                        'cep': dados.get('cep', ''),
+                    })
+                    messages.success(request, "Dados da empresa carregados com sucesso!")
+            else:
+                messages.error(request, "Erro ao acessar a API da Receita. Tente novamente mais tarde.")
+    else:
+        form = CriarEmpresaForm()
+
     return render(request, 'criar_empresa.html', {'form': form})
 
-    if request.method == 'POST':
-        form = AtualizarStatusCompraForm(request.POST, instance=ordem)
-        if form.is_valid():
-            ordem = form.save(commit=False)
-            ordem.possui_material = True
-            ordem.save()
-            return redirect('listar_compras')
-    else:
-        form = AtualizarStatusCompraForm(instance=ordem)
-    return render(request, 'criar_compra.html', {'form': form, 'ordem': ordem})
 
 # Função para buscar uma ordem de serviço pelo número
 @verifica_grupo(['Administrador', 'Usuario', 'Tecnico'], login_url='/erro_permissao/')

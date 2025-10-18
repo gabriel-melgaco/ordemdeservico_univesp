@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
-from .views import home, home_ordem, home_compras, criar_ordem, listar_ordens, executar_ordem, finalizar_ordem, detalhar_ordem, buscar_por_numero, filtrar_por_periodo, listar_compras, atualizar_compra, registrar_usuario, erro_permissao, logout_customizado, about, criar_empresa
+from .views import home, home_ordem, home_compras, criar_ordem, listar_ordens, executar_ordem, finalizar_ordem, detalhar_ordem, buscar_por_numero, filtrar_por_periodo, listar_compras, atualizar_compra, registrar_usuario, erro_permissao, logout_customizado, about, consultar_empresa
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
@@ -21,6 +21,8 @@ urlpatterns = [
     path('compras/<int:pk>/atualizar/', atualizar_compra, name='atualizar_compra'),
     path('erro_permissao/', erro_permissao, name='erro_permissao'),
     path('about/', about, name='about'),
-    path('empresa/criar/', criar_empresa, name='criar_empresa'),
+    path('empresa/consultar/', consultar_empresa, name='consultar_empresa'),
+
+
 
 ]
