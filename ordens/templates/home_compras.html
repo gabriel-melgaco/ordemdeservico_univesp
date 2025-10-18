@@ -28,6 +28,9 @@
         .dropdown-toggle:not(:focus) {
             outline: 0;
         }
+        .button-top {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -83,6 +86,9 @@
                 <p class="lead mb-4 text-justify">Liste, cadastre fornecedores, e atualize o status de compras dos materiais solicitados nas Ordens de Serviços.</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <a href="{% url 'listar_compras' %}" class="btn btn-primary btn-lg px-4 gap-3">Listar Materiais Solicitados</a>
+                </div>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="{% url 'criar_empresa' %}" class="btn btn-primary btn-lg px-4 gap-3 button-top ">Cadastro de Empresa</a>
                 </div>
             </div>
         </div>

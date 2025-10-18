@@ -47,3 +47,35 @@ class OrdemDeServico(models.Model):
         ],
         default='pendente'
     )
+
+class Empresa(models.Model):
+    nome_fantasia = models.CharField("Nome Fantasia", max_length=150)
+    razao_social = models.CharField("Razão Social", max_length=150, null=True, blank=True)
+    cnpj = models.CharField("CNPJ", max_length=18, unique=True)  # formato sugerido: 00.000.000/0000-00
+    inscricao_estadual = models.CharField("Inscrição Estadual", max_length=50, null=True, blank=True)
+
+    endereco = models.CharField("Endereço", max_length=255, null=True, blank=True)
+    numero = models.CharField("Número", max_length=20, null=True, blank=True)
+    complemento = models.CharField("Complemento", max_length=100, null=True, blank=True)
+    bairro = models.CharField("Bairro", max_length=100, null=True, blank=True)
+    cidade = models.CharField("Cidade", max_length=100, null=True, blank=True)
+    estado = models.CharField("Estado", max_length=2, null=True, blank=True)
+    cep = models.CharField("CEP", max_length=9, null=True, blank=True)
+
+    telefone = models.CharField("Telefone", max_length=20, null=True, blank=True)
+    email = models.EmailField("E-mail", null=True, blank=True)
+    contato_responsavel = models.CharField("Contato Responsável", max_length=100, null=True, blank=True)
+    site = models.URLField("Site", null=True, blank=True)
+
+    ativo = models.BooleanField("Ativo", default=True)
+    criado_em = models.DateTimeField("Criado em", auto_now_add=True)
+    atualizado_em = models.DateTimeField("Atualizado em", auto_now=True)
+
+    class Meta:
+        verbose_name = "Empresa"
+        verbose_name_plural = "Empresas"
+        ordering = ["nome_fantasia"]
+
+    def __str__(self):
+        return self.nome_fantasia
+    

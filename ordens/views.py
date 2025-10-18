@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import OrdemDeServico
-from .forms import OrdemDeServicoForm, FinalizarOrdemForm, AtualizarStatusCompraForm, ExecutarOrdemForm
+from .forms import OrdemDeServicoForm, FinalizarOrdemForm, AtualizarStatusCompraForm, ExecutarOrdemForm, CriarEmpresaForm
 from django.utils.dateparse import parse_date
 from django.contrib.auth.forms import UserCreationForm
 from functools import wraps
@@ -103,6 +103,24 @@ def atualizar_compra(request, pk):
     else:
         form = AtualizarStatusCompraForm(instance=ordem)
     return render(request, 'atualizar_compra.html', {'form': form, 'ordem': ordem})
+
+
+@verifica_grupo(['Administrador', 'Compras'], login_url='/erro_permissao/')
+def criar_empresa(request):
+    if request.method == 'GET':
+        form = CriarEmpresaForm(request.GET)
+    return render(request, 'criar_empresa.html', {'form': form})
+
+    if request.method == 'POST':
+        form = AtualizarStatusCompraForm(request.POST, instance=ordem)
+        if form.is_valid():
+            ordem = form.save(commit=False)
+            ordem.possui_material = True
+            ordem.save()
+            return redirect('listar_compras')
+    else:
+        form = AtualizarStatusCompraForm(instance=ordem)
+    return render(request, 'criar_compra.html', {'form': form, 'ordem': ordem})
 
 # Função para buscar uma ordem de serviço pelo número
 @verifica_grupo(['Administrador', 'Usuario', 'Tecnico'], login_url='/erro_permissao/')

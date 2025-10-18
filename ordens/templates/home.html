@@ -29,6 +29,53 @@
             outline: 0;
         }
     </style>
+
+   <!-- Botão de acessibilidade -->
+<div class="container text-end mt-2">
+    <button id="toggle-contrast" class="btn btn-sm btn-dark d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-universal-access-circle me-1" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M7 4.5a1 1 0 1 0 2 0 1 1 0 0 0-2 0M6.007 7a.5.5 0 0 0-.497.57l.278 1.95a.5.5 0 0 0 .09.21l1.221 1.63V13a.5.5 0 0 0 1 0v-1.64l1.221-1.63a.5.5 0 0 0 .09-.21l.278-1.95A.5.5 0 0 0 9.993 7z"/>
+        </svg>
+        Acessibilidade
+    </button>
+</div>
+
+<script>
+    // Alternar alto contraste
+    document.getElementById("toggle-contrast").addEventListener("click", function () {
+        document.body.classList.toggle("high-contrast");
+    });
+</script>
+
+<style>
+    /* Estilo para alto contraste */
+    .high-contrast {
+        background-color: #000 !important;
+        color: #fff !important;
+    }
+
+    .high-contrast p,
+    .high-contrast h1,
+    .high-contrast h2,
+    .high-contrast h3,
+    .high-contrast h4,
+    .high-contrast h5,
+    .high-contrast h6,
+    .high-contrast span,
+    .high-contrast div {
+        color: #fff !important;
+    }
+
+    .high-contrast a,
+    .high-contrast button {
+        color: #ff0 !important;
+        background-color: #000 !important;
+        border: 1px solid #ff0 !important;
+    }
+</style>
+
+
 </head>
 
 <body>
