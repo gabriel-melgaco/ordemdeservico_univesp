@@ -8,16 +8,16 @@ class OrdemDeServico(models.Model):
         ('computador', 'Manutenção de Microcomputador'),
         ('acesso', 'Controle de Acesso'),
     ]
-    nome_guerra = models.CharField(max_length=100)
-    posto = models.CharField(max_length=50)
-    graduacao = models.CharField(max_length=50)
-    telefone_contato = models.CharField(max_length=15)
-    esquadrilha = models.CharField(max_length=100)
-    funcao = models.CharField(max_length=100)
-    tipo_servico = models.CharField(max_length=50, choices=TIPO_SERVICO_CHOICES)
-    descricao_problema = models.TextField()
-    data_criacao = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, default='Aberta', editable=False)
+    nome_guerra = models.CharField("Nome de Guerra", max_length=100)
+    posto = models.CharField("Posto", max_length=50)
+    graduacao = models.CharField("Graduação", max_length=50)
+    telefone_contato = models.CharField("Telefone de Contato", max_length=15)
+    esquadrilha = models.CharField("Esquadrilha", max_length=100)
+    funcao = models.CharField("Função", max_length=100)
+    tipo_servico = models.CharField("Tipo de Serviço", max_length=50, choices=TIPO_SERVICO_CHOICES)
+    descricao_problema = models.TextField("Descrição do Problema")
+    data_criacao = models.DateTimeField("Data de Criação", auto_now_add=True)
+    status = models.CharField("Status", max_length=20, default='Aberta', editable=False)
 
     # Campos para a execução da ordem
     nome_executante = models.CharField(max_length=100, null=True, blank=True)
@@ -37,6 +37,7 @@ class OrdemDeServico(models.Model):
     fornecedor = models.CharField(max_length=100, null=True, blank=True)
     valor_compra = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     status_compra = models.CharField(
+        "Status de Compra",
         max_length=20,
         choices=[
             ('pendente', 'Pendente'),
@@ -47,6 +48,14 @@ class OrdemDeServico(models.Model):
         ],
         default='pendente'
     )
+
+    class Meta:
+        verbose_name = "Ordem de Serviço"
+        verbose_name_plural = "Ordens de Serviço"
+        ordering = ['-data_criacao']
+
+    def __str__(self):
+        return f"OS #{self.id} - {self.nome_guerra} ({self.status})"
 
 class Empresa(models.Model):
     nome_fantasia = models.CharField("Nome Fantasia", max_length=150)

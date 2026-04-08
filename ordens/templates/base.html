@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SisGeOS{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
+          crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        /* ── Layout ─────────────────────────────── */
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        main { flex: 1; }
+
+        /* ── Navbar ─────────────────────────────── */
+        .navbar-brand svg { vertical-align: middle; }
+
+        /* ── Slogan ─────────────────────────────── */
+        .slogan {
+            font-size: .85rem;
+            color: var(--bs-secondary);
+            border-left: 3px solid var(--bs-primary);
+            padding-left: .5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* ── Alto contraste ─────────────────────── */
+        .high-contrast { background-color: #000 !important; color: #fff !important; }
+        .high-contrast *:not(svg):not(path) { color: #fff !important; background-color: transparent; }
+        .high-contrast a, .high-contrast button {
+            color: #ff0 !important;
+            border-color: #ff0 !important;
+        }
+        .high-contrast .navbar,
+        .high-contrast footer,
+        .high-contrast .card,
+        .high-contrast .list-group-item,
+        .high-contrast .table {
+            background-color: #111 !important;
+            border-color: #ff0 !important;
+        }
+        .high-contrast .btn { background-color: #000 !important; }
+
+        /* ── Texto grande ───────────────────────── */
+        .large-font { font-size: 1.15rem; }
+        .large-font .nav-link { font-size: 1.1rem; }
+
+        /* ── Impressão ──────────────────────────── */
+        @media print { .no-print { display: none !important; } }
+
+        /* ── Utilities ──────────────────────────── */
+        .text-justify { text-align: justify; }
+        .dropdown-toggle:not(:focus) { outline: 0; }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+
+<body>
+
+<!-- ── SVG Symbols (ocultos) ───────────────────────────────────────────────── -->
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none" aria-hidden="true">
+    <symbol id="sisGeos" viewBox="0 0 32 32">
+        <title>SiGeOS</title>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M16 0c8.837 0 16 7.163 16 16S24.837 32 16 32 0 24.837 0 16 7.163 0 16 0zm-2.293 7.295v18.298h4.293c1.62 0 2.858-.127 3.714-.38a7.327 7.327 0 0 0 2.367-1.242c.61-.49 1.045-1.106 1.293-1.847.255-.74.393-1.66.412-2.757h-4.975c0 .663-.053 1.158-.164 1.478-.102.319-.305.593-.606.822-.314.23-.694.387-1.138.468-.444.081-.968.122-1.572.122h-1.354V7.295zm-6.782 8.592v7.496h4.975v-7.496zM16.793 7.5v4.975h4.975V7.5z"/>
+    </symbol>
+    <symbol id="linkedin" viewBox="0 0 16 16">
+        <path d="M15.9 0H0.1A.1.1 0 000 .1v15.8c0 .055.045.1.1.1h15.8c.055 0 .1-.045.1-.1V.1A.1.1 0 0015.9 0zM4.772 13.683H2.375V5.955h2.397v7.728zM3.574 4.987c-.833 0-1.502-.676-1.502-1.511s.669-1.511 1.502-1.511c.833 0 1.511.676 1.511 1.511s-.678 1.511-1.511 1.511zM13.683 13.683h-2.397v-4.358c0-1.040-.022-2.376-1.446-2.376-1.447 0-1.67 1.133-1.67 2.305v4.429H5.854V5.955h2.305v1.052h.032c.32-.609 1.112-1.25 2.287-1.25 2.446 0 2.894 1.611 2.894 3.705v4.222z"/>
+    </symbol>
+</svg>
+
+<!-- ── Modal aviso de sessão ───────────────────────────────────────────────── -->
+<div class="modal fade" id="sessionWarningModal" tabindex="-1"
+     aria-labelledby="sessionWarningLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="sessionWarningLabel">
+                    <i class="bi bi-clock-history me-2" aria-hidden="true"></i>Sessão prestes a expirar
+                </h5>
+            </div>
+            <div class="modal-body">
+                Sua sessão está prestes a expirar por inatividade.
+                Clique em <strong>Continuar</strong> para permanecer conectado.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="continueSession">
+                    Continuar
+                </button>
+                <a href="/logout/" class="btn btn-outline-secondary">Sair agora</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Barra de acessibilidade ─────────────────────────────────────────────── -->
+<div class="bg-light border-bottom py-1 no-print" id="a11y-bar">
+    <div class="container d-flex gap-2 justify-content-end align-items-center flex-wrap">
+        <span class="text-muted small me-1" aria-hidden="true">Acessibilidade:</span>
+        <button id="toggle-contrast"
+                class="btn btn-sm btn-outline-dark d-inline-flex align-items-center gap-1 py-0"
+                aria-pressed="false"
+                aria-label="Alternar alto contraste">
+            <i class="bi bi-circle-half" aria-hidden="true"></i>
+            <span class="d-none d-sm-inline">Alto Contraste</span>
+        </button>
+        <button id="toggle-font"
+                class="btn btn-sm btn-outline-dark d-inline-flex align-items-center gap-1 py-0"
+                aria-pressed="false"
+                aria-label="Aumentar tamanho do texto">
+            <i class="bi bi-type-bold" aria-hidden="true"></i>
+            <span class="d-none d-sm-inline">Texto Grande</span>
+        </button>
+    </div>
+</div>
+
+<!-- ── Navbar ──────────────────────────────────────────────────────────────── -->
+<header class="no-print">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm" aria-label="Navegação principal">
+        <div class="container">
+            <!-- Marca / Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="/" aria-label="SisGeOS — Página inicial">
+                <svg width="28" height="28" aria-hidden="true">
+                    <use xlink:href="#sisGeos"/>
+                </svg>
+                SisGeOS
+            </a>
+
+            <!-- Botão hamburger (mobile) -->
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                    aria-controls="navbarMain" aria-expanded="false"
+                    aria-label="Abrir/fechar menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Conteúdo colapsável -->
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <!-- Links de navegação -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link {% block nav_home %}{% endblock %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'home_ordem' %}" class="nav-link {% block nav_ordem %}{% endblock %}">SiGeOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'home_compras' %}" class="nav-link {% block nav_compras %}{% endblock %}">SiGeCompras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'about' %}" class="nav-link {% block nav_about %}{% endblock %}">Sobre Nós</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/api/docs/" class="nav-link" target="_blank" rel="noopener"
+                           aria-label="Documentação da API (abre em nova aba)">
+                            <i class="bi bi-code-square me-1" aria-hidden="true"></i>API
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Botões de autenticação / admin -->
+                <div class="d-flex flex-column flex-lg-row gap-2 align-items-start align-items-lg-center">
+                    {% if user.is_authenticated %}
+                        <span class="text-muted small d-none d-lg-inline">
+                            <i class="bi bi-person-circle me-1" aria-hidden="true"></i>{{ user.username }}
+                        </span>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-box-arrow-right me-1" aria-hidden="true"></i>Logout
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>Login
+                        </a>
+                    {% endif %}
+                    {% if user.groups.all.0.name == "Administrador" %}
+                        <a href="{% url 'registrar' %}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-person-plus me-1" aria-hidden="true"></i>Novo usuário
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slogan -->
+    <div class="container py-2">
+        <p class="slogan mb-0">
+            <strong>Exército Brasileiro</strong> — Braço Forte, Mão Amiga
+        </p>
+    </div>
+</header>
+
+<!-- ── Mensagens globais ────────────────────────────────────────────────────── -->
+{% if messages %}
+<div class="container mt-2" role="alert" aria-live="polite">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- ── Conteúdo principal ───────────────────────────────────────────────────── -->
+<main class="container py-3">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ── Rodapé ──────────────────────────────────────────────────────────────── -->
+<footer class="border-top mt-auto py-3 bg-white no-print">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+            <a href="/" aria-label="SisGeOS — Página inicial" class="text-body-secondary text-decoration-none">
+                <svg width="24" height="24" aria-hidden="true"><use xlink:href="#sisGeos"/></svg>
+            </a>
+            <span class="text-body-secondary small">
+                UNIVESP — Projeto Integrador<br>
+                DRP03-PJI110-SALA-002GRUPO-006 &copy; 2025
+            </span>
+        </div>
+        <ul class="list-unstyled d-flex gap-3 mb-0">
+            <li>
+                <a href="https://www.linkedin.com/in/josecemessias"
+                   class="text-body-secondary"
+                   aria-label="LinkedIn de José Messias"
+                   target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" aria-hidden="true"><use xlink:href="#linkedin"/></svg>
+                </a>
+            </li>
+            <li>
+                <a href="/api/docs/"
+                   class="text-body-secondary small d-flex align-items-center gap-1"
+                   aria-label="Documentação da API"
+                   target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-code-square" aria-hidden="true"></i>
+                    <span class="d-none d-sm-inline">API Docs</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+
+<script>
+// ── Acessibilidade ─────────────────────────────────────────────────────────
+(function () {
+    const contrastBtn = document.getElementById('toggle-contrast');
+    const fontBtn     = document.getElementById('toggle-font');
+
+    // Persistir preferências
+    if (localStorage.getItem('highContrast') === '1') {
+        document.body.classList.add('high-contrast');
+        contrastBtn.setAttribute('aria-pressed', 'true');
+    }
+    if (localStorage.getItem('largeFonts') === '1') {
+        document.body.classList.add('large-font');
+        fontBtn.setAttribute('aria-pressed', 'true');
+    }
+
+    contrastBtn.addEventListener('click', function () {
+        const on = document.body.classList.toggle('high-contrast');
+        this.setAttribute('aria-pressed', on);
+        localStorage.setItem('highContrast', on ? '1' : '0');
+    });
+    fontBtn.addEventListener('click', function () {
+        const on = document.body.classList.toggle('large-font');
+        this.setAttribute('aria-pressed', on);
+        localStorage.setItem('largeFonts', on ? '1' : '0');
+    });
+})();
+
+// ── Aviso de sessão ────────────────────────────────────────────────────────
+(function () {
+    const WARNING_MS = 540_000;  // 9 min
+    const LOGOUT_MS  = 600_000;  // 10 min
+    const modalEl    = document.getElementById('sessionWarningModal');
+    if (!modalEl) return;
+
+    const sessionModal = new bootstrap.Modal(modalEl);
+    let warnTimer, logoutTimer;
+
+    function resetTimer() {
+        clearTimeout(warnTimer);
+        clearTimeout(logoutTimer);
+        warnTimer   = setTimeout(() => sessionModal.show(), WARNING_MS);
+        logoutTimer = setTimeout(() => { window.location.href = '/logout/'; }, LOGOUT_MS);
+    }
+
+    document.getElementById('continueSession').addEventListener('click', resetTimer);
+    document.addEventListener('mousemove', resetTimer, { passive: true });
+    document.addEventListener('keydown',   resetTimer, { passive: true });
+    document.addEventListener('touchstart', resetTimer, { passive: true });
+    resetTimer();
+})();
+</script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

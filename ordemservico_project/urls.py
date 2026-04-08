@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ordens.urls')),  # Inclua as rotas do app `ordens`
+    path('api/', include('ordens.api_urls')),  # API REST + Swagger
+    path('', include('ordens.urls')),           # Interface web
 ]
 

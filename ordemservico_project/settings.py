@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-lz9k&3#_t0p-kf0k)t2sn9&lp)xlanjkn8^u^v1f6w8lu$xq#k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ordemdeservico.megdev.com.br', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['ordemdeservico.megdev.com.br', 'localhost', '127.0.0.1', '192.168.15.10']
 
 
 # Application definition
@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ordens',  # Gerenciador de OS
     'crispy_forms',
-    'crispy_bootstrap5', 
+    'crispy_bootstrap5',
+    # API
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -141,4 +145,41 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CSRF_TRUSTED_ORIGINS = ['https://ordemdeservico.megdev.com.br']
+
+# ─── Django REST Framework ────────────────────────────────────────────────────
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+}
+
+# ─── drf-spectacular (Swagger/OpenAPI) ───────────────────────────────────────
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'SisGeOS API',
+    'DESCRIPTION': (
+        'API REST do Sistema de Gestão de Ordens de Serviço (SisGeOS). '
+        'Autentique-se com Token: obtenha o token em POST /api/auth/token/, '
+        'depois use o header `Authorization: Token <seu_token>`.'
+    ),
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+        'displayRequestDuration': True,
+        'filter': True,
+    },
+    'COMPONENT_SPLIT_REQUEST': True,
+    'TAGS': [
+        {'name': 'auth', 'description': 'Autenticação por Token'},
+        {'name': 'ordens', 'description': 'Ordens de Serviço'},
+        {'name': 'empresas', 'description': 'Empresas / Fornecedores'},
+    ],
+}
 
