@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    container_name: django_web_ordemservico
+    ports:
+      - "6000:8000"
+    volumes:
+      - .:/app
