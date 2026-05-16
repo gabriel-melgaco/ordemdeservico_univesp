@@ -3,7 +3,7 @@ name: Deploy to MelgaServer
 on:
   push:
     branches:
-      - main  # Deploy automático ao fazer push na branch develop
+      - main  # Deploy automático ao fazer push na branch main
   workflow_dispatch:  # Permite execução manual pelo GitHub
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
             pwd
             echo ""
             
-            echo "📥 Atualizando código da branch develop..."
+            echo "📥 Atualizando código da branch main..."
             git fetch origin main
             git reset --hard origin/main
             echo ""
@@ -87,7 +87,7 @@ jobs:
           echo "### ✅ Deploy realizado com sucesso!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Detalhes:**" >> $GITHUB_STEP_SUMMARY
-          echo "- 🌿 Branch: develop" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌿 Branch: main" >> $GITHUB_STEP_SUMMARY
           echo "- 📦 Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- 🖥️  Servidor: MelgaServer (192.168.15.10)" >> $GITHUB_STEP_SUMMARY
           echo "- ⏰ Horário: $(date)" >> $GITHUB_STEP_SUMMARY
